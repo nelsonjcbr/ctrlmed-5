@@ -1,0 +1,1 @@
+json.partial! "viaaplics/viaaplic", viaaplic: @viaaplic

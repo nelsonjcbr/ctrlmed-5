@@ -1,0 +1,2 @@
+class Clilab < ApplicationRecord
+end

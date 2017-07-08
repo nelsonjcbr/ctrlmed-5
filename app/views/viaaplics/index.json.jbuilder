@@ -1,0 +1,1 @@
+json.array! @viaaplics, partial: 'viaaplics/viaaplic', as: :viaaplic

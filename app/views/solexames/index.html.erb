@@ -1,0 +1,42 @@
+<%- model_class = Solexame -%>
+
+<fieldset class='caixa'>
+  <legend class='caixa'><%=t '.title', :default => 'Exames Solicitados'  %> 
+  </legend>
+ 
+<%= will_paginate @receitas, renderer: BootstrapPagination::Rails %>
+
+<br>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Data</th>
+      <th>Paciente</th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% for solexame in @solexames %>
+    <tr>
+      <td><%= link_to solexame.id, solexame_path(solexame.id) %></td>
+      <td><%=h solexame.data %></td>
+      <td><%=h solexame.paciente.nm_paciente %></td>
+      <td>
+        <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                    edit_solexame_path(solexame, paciente: solexame.paciente_id), :class => 'btn btn-mini' %>
+        <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                    solexame_path(solexame),
+                    :method => :delete,
+                    :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                    :class => 'btn btn-mini btn-danger' %>
+      </td> 
+    </tr>
+    <% end %>
+  <tboby>
+</table>
+
+<br />
+
+</fieldset>

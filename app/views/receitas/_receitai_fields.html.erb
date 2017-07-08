@@ -1,0 +1,18 @@
+<div class = 'nested-fields'>
+  <div class='row'>
+    <div class='col-sm-4'>
+      <%= f.input :medicamento, label: false, html: { class: 'form-control'}, placeholder: "Entre com o medicamento",
+          :as => :autocomplete, :source_query => autocomplete_medicamento_descricao_medicamentos_url %>
+    </div>
+    <div class='col-sm-4'>
+      <%= f.input :dose, label: false, placeholder: 'Entre com a dose, ex: Tomar 1 comprimido' %>
+    </div>
+    <div class='col-sm-2'>
+      <%= f.input :qtde, label: false, placeholder: 'Qtde, ex: 1 vidro', class: 'col-lg-1' %>
+    </div>
+    <div class='col-sm-2'>
+      <%= f.hidden_field :_destroy %>
+      <%= link_to_remove_association 'remove', f, render_options: { wrapper: 'inline' }, class: 'remove_fields btn btn-danger'  %>
+    </div>
+  </div>
+</div>

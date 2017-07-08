@@ -1,0 +1,2 @@
+class Viaaplic < ApplicationRecord
+end

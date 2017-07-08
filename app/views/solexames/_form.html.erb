@@ -1,0 +1,35 @@
+
+<%= simple_form_for @solexame do |f| %>
+
+  <fieldset class='caixa'>
+    <legend class='caixa'><%= titulo %> Solicitação de Exames</legend>
+
+    <div class='container-fluid'>
+
+      <%= f.hidden_field :paciente_id %>
+
+      Paciente: <b><%= @paciente.nm_paciente  %></b>
+
+    <div class='row'>
+    <div class='col-md-3'>
+      <%= f.input :data, format: :default, inline_label: 'Data da solicitação', html5: true, input_html: { class: 'input-large' } %>
+
+    </div>
+    <div class='col-md-3'>
+      <%= f.select :clilab_id, @clilabs,  inline_label: 'Solitar a' %>
+      <%= f.input :clilab_id, @clilabs.collection,  inline_label: 'Solitar a' %>
+    </div>
+  </div>
+
+    <%= f.simple_fields_for :solexameis, @solexameis do |builder| %>
+      <%= render 'solexamei_fields', f: builder %>
+    <% end %>
+
+    <%= link_to_add_fields "Adiciona Item", f, :solexameis %>
+    <br>
+    <br>
+    <%= f.submit "Gravar", :class => 'btn btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                  solexames_path, :class => 'btn' %>
+  </fieldset>
+<% end %>

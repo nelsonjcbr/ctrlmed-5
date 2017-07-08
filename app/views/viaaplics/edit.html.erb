@@ -1,0 +1,8 @@
+<% content_for :breadcrumb do %>
+  <li><%= link_to "Home", root_path %></li>
+  <li class="active">Examples</li>
+<% end %>
+
+<%- model_class = Viaaplic -%>
+
+<%= render partial: 'form' %>

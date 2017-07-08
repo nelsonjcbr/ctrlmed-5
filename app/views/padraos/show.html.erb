@@ -1,0 +1,27 @@
+<%- model_class = Padrao -%>
+
+  <fieldset class='caixa'>
+    <legend class='caixa'>Padrões</legend>
+
+<dl class="dl-horizontal">
+  <dt><strong><%= model_class.human_attribute_name(:campo) %>:</strong></dt>
+  <dd><%= @padrao.campo %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:valores) %>:</strong></dt>
+  <dd><%= simple_format(@padrao.valores) %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:created_at) %>:</strong></dt>
+  <dd><%= @padrao.created_at %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:updated_at) %>:</strong></dt>
+  <dd><%= @padrao.updated_at %></dd>
+</dl>
+
+<div class="form-actions">
+  <%= link_to t('.back', :default => t("helpers.links.back")),
+              padraos_path, :class => 'btn'  %>
+  <%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_padrao_path(@padrao), :class => 'btn btn-primary' %>
+  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              padrao_path(@padrao),
+              :method => 'delete',
+              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+              :class => 'btn btn-danger' %>
+</div>

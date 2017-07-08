@@ -1,0 +1,169 @@
+<%- model_class = Medicamento -%>
+
+<fieldset class='caixa'>
+  <legend class='caixa'>Paciente</legend>
+
+  <dl class="dl-horizontal">
+    <dt></dt>
+    <dd><h2><%=t '.title', :default => @paciente.nm_paciente %></h2></dd>
+
+    <dt><strong><%= model_class.human_attribute_name("Data nascimento") %>:</strong></dt>
+    <dd><%= @paciente.dt_nascimento %> - <%= @paciente.idade %></dd>
+
+    <% unless @paciente.estado_civil.blank? %>
+    <dt><strong>Estado Civil:</strong></dt>
+    <dd><%= @paciente.estado_civil %></dd>
+    <% end %>
+
+    <dt><strong>Endereço:</strong></dt>
+    <dd><%= @paciente.endereco %> -
+        <%= @paciente.cidade.to_s %>
+    </dd>
+
+    <dt><strong>Profissão/Empresa:</strong></dt>
+    <dd><%= @paciente.profissao %> -
+        <%= @paciente.empresa %>
+    </dd>
+
+    <dt><strong>Fone:</strong></dt>
+    <dd><%= @paciente.fone_casa %>&nbsp;
+        <%= @paciente.fone_empresa %>&nbsp;
+        <%= @paciente.celular %>
+    </dd>
+
+    <% unless @paciente.e_mail.blank? %>
+      <dt><strong>Natural:</strong></dt>
+      <dd><%= @paciente.e_mail %></dd>
+    <% end %>
+
+    <dt><strong>Primeira consulta:</strong></dt>
+    <dd><%= @paciente.dt_prim_consulta %></dd>
+
+    <dt><strong>Ultima consulta:</strong></dt>
+    <dd><%= @paciente.dt_ult_consulta %></dd>
+
+    <% unless @paciente.situacao.blank? %>
+      <dt><strong>Situação:</strong></dt>
+      <dd><%= @paciente.situacao %></dd>
+    <% end %>
+
+    <% unless @paciente.encaminhado_por.blank? %>
+      <dt><strong>Encaminhado por:</strong></dt>
+      <dd><%= @paciente.encaminhado_por %></dd>
+    <% end %>
+
+
+    <p><dt></dt><dd><h3>ANAMNESE</h3></dd>
+
+    <% unless @paciente.obs1.blank? %>
+      <dt><strong>Q.P./H.P.M.A.:</strong></dt>
+      <dd><%= @paciente.obs1 %></dd>
+    <% end %>
+
+    <% unless @paciente.obs2.blank? %>
+      <dt><strong>A.P./I.D.:</strong></dt>
+      <dd><%= @paciente.obs2 %></dd>
+    <% end %>
+
+    <% unless @paciente.antec_mae.blank? %>
+      <dt><strong>Antec.mãe:</strong></dt>
+      <dd><%= @paciente.antec_mae %></dd>
+    <% end %>
+
+    <% unless @paciente.antec_pai.blank? %>
+      <dt><strong>Antec.pai:</strong></dt>
+      <dd><%= @paciente.antec_pai %></dd>
+    <% end %>
+
+    <% unless @paciente.antec_filhos.blank? %>
+      <dt><strong>Antec.filhos:</strong></dt>
+      <dd><%= @paciente.antec_filhos %></dd>
+    <% end %>
+
+    <% unless @paciente.antec_irmaos.blank? %>
+      <dt><strong>Antec.irmãos:</strong></dt>
+      <dd><%= @paciente.antec_irmaos %></dd>
+    <% end %>
+
+    <% unless @paciente.antec_conjuge.blank? %>
+      <dt><strong>Antec.cônjuge:</strong></dt>
+      <dd><%= @paciente.antec_conjuge %></dd>
+    <% end %>
+
+    <% unless @paciente.obs3.blank? %>
+      <dt><strong>E.F.:</strong></dt>
+      <dd><%= @paciente.obs3 %></dd>
+    <% end %>
+
+    <% unless @paciente.obs4.blank? %>
+      <dt><strong>Conduta H.D.:</strong></dt>
+      <dd><%= @paciente.obs4 %></dd>
+    <% end %>
+
+    <% unless @paciente.obs5.blank? %>
+      <dt><strong>Evolução:</strong></dt>
+      <dd><%= @paciente.obs5 %></dd>
+    <% end %>
+
+  </dl>
+
+  <fieldset class='caixa'>
+    <legend class='caixa'>Receitas</legend>
+
+    <table class="table table-striped">
+      <% @paciente.receitas.each do |r| %>
+      <tr>
+        <th><%= r.data %>&nbsp;
+          <%= link_to t('.show', :default => t("helpers.links.show")),
+            receita_path(r, :paciente => @paciente), :class => 'btn btn-xs btn-warning glyphicon glyphicon-eye-open' %>
+        </th>
+        <td>
+        <% r.receitais.each do |i| %>
+        <%= i.medicamento.try(:descricao).to_s + ' ' + i.dose + '(' + i.qtde.to_s + ')' %>
+        <br>
+        <% end %>
+        </td>
+      </tr>
+    <% end %>
+    </table>
+
+  </fieldset>
+
+  <fieldset class='caixa'>
+    <legend class='caixa'>Exames Solicitados</legend>
+
+    <table class="table table-striped">
+    <% @paciente.solexames.each do |r| %>
+      <tr>
+        <th><%= r.data %>
+          <%= link_to t('.show', :default => t("helpers.links.show")),
+            solexame_path(r, :paciente => @paciente), :class => 'btn btn-xs btn-warning glyphicon glyphicon-eye-open' %>
+        </th>
+        <td>
+        <% r.solexameis.each do |i| %>
+        <%= i.exame.descricao %>
+        <br>
+        <% end %>
+        </td>
+      </tr>
+    <% end %>
+    </table>
+  </fieldset>
+
+  <div class="form-actions">
+    <%= link_to t('.back', :default => t("helpers.links.back")),
+                pacientes_path, :class => 'btn'  %>
+    <%= link_to t('.edit', :default => "Editar Paciente"),
+                edit_paciente_path(@paciente), :class => 'btn btn-primary' %>
+    <%= link_to t('.destroy', :default => "Excluir Paciente"),
+                paciente_path(@paciente),
+                :method => 'delete',
+                :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Você tem certeja que quer excluir toda o cadastro e a história do paciente?')) },
+                :class => 'btn btn-danger' %>
+    <%= link_to 'Prescrever Receita', 
+                new_receita_path( :paciente => @paciente ), :class => "btn btn-info" %> 
+    <%= link_to 'Solicitar de Exame', 
+                new_solexame_path( :paciente => @paciente ), :class => "btn btn-info" %>
+  </div>  
+
+</fieldset>
