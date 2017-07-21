@@ -8,7 +8,7 @@ class ReceitasController < ApplicationController
 
     # GET /receitas
   # GET /receitas.xml
-  def index
+  def index    # Aqui não é alinhado com o paciente, é usado na tela por fora
     @totalreceitas = Receita.count
     @receitas = Receita.paginate(:page => params[:page])
                          .order('id desc')
@@ -24,7 +24,14 @@ class ReceitasController < ApplicationController
   # GET /receitas/new.xml
   def new
     @receita = Receita.new(data: Date.today, paciente_id: @paciente.id)
-    @receita.receitais.build
+    if @receita.save
+      redirect_to new_receita_receitai_url(@receita)
+    else
+      flash[:notice] = 'Cabeçalho de Receita foi criado com sucesso.'
+      format.html { redirect_to paciente_url(@paciente) }
+      format.xml  { render :xml => @receita, :status => :created, :location => @receita }
+    end
+    #@receita.receitais.build
     #2.times { @receita.receitais.build }
     add_breadcrumb "Novo", receitas_path, :title => "Volta para o index"
   end
@@ -40,8 +47,8 @@ class ReceitasController < ApplicationController
     @receita = Receita.new(receita_params)
     respond_to do |format|
       if @receita.save
-        flash[:notice] = 'Receita was successfully created.'
-        format.html { redirect_to(@receita) }
+        flash[:notice] = 'Cabeçalho de Receita foi criado com sucesso.'
+        format.html { redirect_to new_receita_receitai_url(@receita) }
         format.xml  { render :xml => @receita, :status => :created, :location => @receita }
       else
         format.html { render :action => "new" }
@@ -75,11 +82,6 @@ class ReceitasController < ApplicationController
     end
   end
 
-  def export
-    receita_pdf = ImpressaoReceita.new(@receita).prepare_for_print
-    send_data receita_pdf.render, filename: "receita.pdf", type: "application/pdf"
-  end
-
 def get_doses2
    @med = Medicamento.find( params[:medicamento_id], :select => 'dose' )
 #   render :inline => "<%= receitai_form.text_field :dose %>"
@@ -95,7 +97,7 @@ def get_doses2
   private
 
   def ler_paciente
-    @paciente = Paciente.find( params['paciente'] )
+    @paciente = Paciente.find( params['paciente_id'] )
   end
 
   # Use callbacks to share common setup or constraints between actions.

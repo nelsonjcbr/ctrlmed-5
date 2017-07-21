@@ -12,13 +12,6 @@
 
     <%= f.input :data, format: :default, inline_label: 'Data da receita', html5: true, input_html: { class: 'input-large' } %>
 
-    <div id='receitai'>
-      <%= f.simple_fields_for :receitais do |builder| %>
-        <%= render 'receitai_fields', f: builder %>
-      <% end %>
-    
-      <%= link_to_add_association "Adiciona medicamento", f, :receitais %>
-    </div>
     <br>
     <br>
     <%= f.submit "Gravar", :class => 'btn btn-primary' %>
@@ -27,8 +20,3 @@
   </fieldset> 
 <% end %>
 
-<script>
-$(document).ready(function(){
-  alert("testando");
-})
-</script>

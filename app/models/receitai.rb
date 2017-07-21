@@ -1,6 +1,9 @@
 class Receitai < ActiveRecord::Base
   #acts_as_reportable
 
+  validates :medicamento_id, presence: true
+  validates :dose, presence: true
+
   belongs_to :receita
   belongs_to :medicamento
 

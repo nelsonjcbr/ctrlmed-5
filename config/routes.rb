@@ -20,12 +20,12 @@ Rails.application.routes.draw do
     get :autocomplete_medicamento_descricao, :on => :collection
   end
   resources :viaaplics
-  resources :pacientes, :has_many => :receitas
+  #resources :pacientes, :has_many => :receitas 
+  resources :pacientes do
+    resources :receitas 
+  end
   resources :receitas do
-    member do
-     # /agreements/:id/export
-     get 'export'
-   end
+    resources :receitais
   end
 
   resources :impreceita
